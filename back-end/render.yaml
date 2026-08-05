@@ -31,6 +31,10 @@ services:
         value: "Demo1234"
       - key: DEMO_ADMIN_NOMBRE
         value: "Usuario Demo"
+      # Pon esto en true SOLO si quieres borrar la base y reimportarla
+      # desde cero en el siguiente arranque. Déjalo en false normalmente.
+      - key: DB_FORZAR_IMPORT
+        value: "false"
 
       # --- Render te los pedirá al crear el Blueprint ---
       - key: DB_HOST

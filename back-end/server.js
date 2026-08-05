@@ -84,6 +84,14 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-app.listen(port, () => {
-    console.log(`Servidor escuchando en el puerto ${port}`);
-});
+// Al arrancar: si la base está vacía, se crea y se llena sola con el
+// volcado del repositorio. Si ya tiene datos, no la toca.
+const { asegurarBaseDeDatos } = require('./utils/bootstrap');
+
+asegurarBaseDeDatos()
+    .catch((e) => console.error('[bootstrap] Error inesperado:', e.message))
+    .finally(() => {
+        app.listen(port, () => {
+            console.log(`Servidor escuchando en el puerto ${port}`);
+        });
+    });
