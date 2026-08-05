@@ -1,0 +1,45 @@
+# Blueprint de Render — despliegue del backend sin tocar archivos.
+#
+# En Render: New → Blueprint → conecta el repositorio.
+# Render lee este archivo y te PIDE por pantalla los valores marcados
+# con `sync: false`. El resto ya viene resuelto aquí.
+
+services:
+  - type: web
+    name: mora-api
+    runtime: node
+    plan: free
+    rootDir: back-end
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      # --- Resueltos automáticamente, no te preguntan nada ---
+      - key: NODE_VERSION
+        value: "22.22.3"
+      - key: JWT_SECRET
+        generateValue: true          # Render genera uno aleatorio y seguro
+      - key: JWT_EXPIRES_IN
+        value: "2h"
+      - key: DB_SSL
+        value: "true"
+      - key: DB_PORT
+        value: "3306"
+      - key: DEMO_ADMIN_CEDULA
+        value: "1000000000"
+      - key: DEMO_ADMIN_PASSWORD
+        value: "Demo1234"
+      - key: DEMO_ADMIN_NOMBRE
+        value: "Usuario Demo"
+
+      # --- Render te los pedirá al crear el Blueprint ---
+      - key: DB_HOST
+        sync: false                  # host que te da Aiven
+      - key: DB_USER
+        sync: false                  # en Aiven suele ser: avnadmin
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        sync: false                  # en Aiven suele ser: defaultdb
+      - key: CORS_ORIGIN
+        sync: false                  # URL de Netlify (la pones en el paso 5)
