@@ -18,7 +18,7 @@ const pool = mysql.createPool({
     enableKeepAlive: true,
     // Evita inyección por múltiples sentencias en una sola query
     multipleStatements: false,
-    ...(useSSL ? { ssl: { rejectUnauthorized: true } } : {})
+    ...(useSSL ? { ssl: { rejectUnauthorized: false } } : {})
 });
 
 // Comprobación de arranque: informa pero no tumba el proceso,
